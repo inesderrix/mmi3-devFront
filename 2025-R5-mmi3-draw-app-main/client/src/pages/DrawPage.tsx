@@ -7,6 +7,7 @@ import { UserList } from '../features/user/components/UserList'
 import { DrawArea } from '../features/drawing/components/DrawArea'
 import { useUpdatedUserList } from '../features/user/hooks/useUpdatedUserList'
 import { useJoinMyUser } from '../features/user/hooks/useJoinMyUser'
+import { DrawToolbar } from '../features/drawing/components/DrawToolbar'
 
 function DrawPage() {
   const { joinMyUser }  = useJoinMyUser();
@@ -30,6 +31,7 @@ function DrawPage() {
           <Instructions>
             {getInstructions('toolbar')}
           </Instructions>
+          <DrawToolbar></DrawToolbar>
         </>
       }
     >
