@@ -16,7 +16,7 @@ import { useUserListStore } from "../../../user/store/useUserListStore";
 */
 
 export function DrawArea() {
-  const { strokeColor } = useDrawingStore();
+  const { strokeColor, strokeWidth } = useDrawingStore();
   const { setUserStrokeColor } = useUserListStore();
 
 
@@ -87,7 +87,8 @@ export function DrawArea() {
   const drawLine = useCallback((
     from: { x: number, y: number } | null,
     to: { x: number, y: number },
-    color:string
+    color: string,
+    width: number,
   ) => {
     if (!canvasRef.current) {
       return;
@@ -99,7 +100,7 @@ export function DrawArea() {
     }
     
     ctx.strokeStyle = color;
-    ctx.lineWidth = 4;
+    ctx.lineWidth = width;
 
     if (!from) {
       ctx.beginPath();
@@ -131,13 +132,14 @@ export function DrawArea() {
         x: coordinates.x,
         y: coordinates.y,
       },
-    strokeColor
+    strokeColor,
+    strokeWidth
   );
       
       const relativeCoordinates = toRelativeCoordinates(coordinates.x, coordinates.y);
       SocketManager.emit('draw:move', relativeCoordinates);
       
-    }, [drawLine, getCanvasCoordinates, toRelativeCoordinates, strokeColor]);
+    }, [drawLine, getCanvasCoordinates, toRelativeCoordinates, strokeColor, strokeWidth]);
     
     
     const onMouseUp = useCallback(() => {
@@ -165,13 +167,13 @@ export function DrawArea() {
       
       /** Transformation des coordoonées mouse (relatives à la page) vers des coordonnées relative au canvas  */
       const coordinates = getCanvasCoordinates(e);
-      drawLine(null, coordinates, strokeColor);
+      drawLine(null, coordinates, strokeColor, strokeWidth);
       
       const relativeCoordinates = toRelativeCoordinates(coordinates.x, coordinates.y);
       SocketManager.emit('draw:start', {
         x: relativeCoordinates.x,
         y: relativeCoordinates.y,
-        strokeWidth: 3,
+        strokeWidth: strokeWidth,
         color: strokeColor
       });
       
@@ -184,7 +186,7 @@ export function DrawArea() {
       */
       canvasRef.current?.addEventListener('mousemove', onMouseMove);
       canvasRef.current?.addEventListener('mouseup', onMouseUp);
-    }, [canUserDraw, onMouseMove, onMouseUp, drawLine, getCanvasCoordinates, toRelativeCoordinates, strokeColor]);
+    }, [canUserDraw, onMouseMove, onMouseUp, drawLine, getCanvasCoordinates, toRelativeCoordinates, strokeColor, strokeWidth]);
     
     /**
     * ===================
@@ -238,7 +240,7 @@ export function DrawArea() {
       
        const absoluteFrom = from ? toAbsoluteCoordinates(from.x, from.y) : null;
        const absoluteTo = toAbsoluteCoordinates(to.x, to.y);
-       drawLine(absoluteFrom, absoluteTo, stroke.color);
+       drawLine(absoluteFrom, absoluteTo, stroke.color,stroke.strokeWidth);
      });
 
 
