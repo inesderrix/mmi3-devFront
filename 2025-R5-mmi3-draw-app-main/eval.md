@@ -1,4 +1,4 @@
-## P1 L'utilisateur peut sélectionner la couleur de son tracé
+## P1 - L'utilisateur peut sélectionner la couleur de son tracé
 
 J’ai ajouté dans la toolbar des pastille coloré qui permet de choisir la couleur du crayon.
 
@@ -8,3 +8,13 @@ Lors du dessin, la couleur active est utilisée au moment du `mousedown` et `mou
 
 La couleur est envoyée au serveur et est partagée avec les autres utilisateurs.  
 Les tracés des autres utilisateurs sont affichés avec la couleur qu’ils ont choisie.
+
+# B3 - Afficher une pastille avec la couleur du tracé de l’utilisateur dans la liste utilisateur
+
+Ajout d’une pastille à côté de chaque utilisateur dans la liste pour afficher sa dernière couleur de tracé. 
+
+Couleur mise à jour dès qu’un utilisateur commence à dessiner.  
+
+Couleur stockée côté front dans `userStrokeColor` (Map userId → couleur).  
+
+Si pas de couleur connue (comme au début vu que ca se mets à jour lorsque l'user commence à dessiner), pastille noire par défaut.  

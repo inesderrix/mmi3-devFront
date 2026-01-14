@@ -1,3 +1,5 @@
+import { useUserListStore } from "../../store/useUserListStore";
+
 export type UserListProps = {
   users: {
     id: string;
@@ -6,7 +8,10 @@ export type UserListProps = {
   }[] /* Ici je précise explicitement que j'attends non pas un type User, mais un un array d'objets avec une clé id, username & avatar. --> Ca rend mes composants bien plus indépendants & réutilisables */
 }
 
+
+
 export function UserList({ users }: UserListProps){
+  const { userStrokeColor } = useUserListStore();
   return (
     <div className="flex flex-col gap-3">
       <span className="font-bold">Liste des utilisateurs: <div className="badge badge-soft badge-info">{users.length}</div></span>
@@ -18,7 +23,13 @@ export function UserList({ users }: UserListProps){
               <div><img className="size-8 rounded-box" src={user.avatar} /></div>
               <div>
                 <div className="text-xs uppercase font-semibold">{user.username}</div>
-              </div>
+              </div> <div
+                className="w-3 h-3 rounded-full"
+                style={{
+                  backgroundColor: userStrokeColor.get(user.id) ?? 'black',
+                }}
+              />
+              
             </li>
           ))
         :

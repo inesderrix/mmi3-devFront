@@ -7,7 +7,7 @@ import type { DrawStroke, Point } from "../../../../shared/types/drawing.type";
 import { absoluteToRelativeCoordinates } from "../../utils/absoluteToRelativeCoordinates";
 import { relativeToAbsoluteCoordinates } from "../../utils/relativeToAbsoluteCoordinates";
 import { useDrawingStore } from "../../store/useDrawingStore";
-
+import { useUserListStore } from "../../../user/store/useUserListStore";
 
 /**
 * EN SAVOIR PLUS : 
@@ -17,6 +17,8 @@ import { useDrawingStore } from "../../store/useDrawingStore";
 
 export function DrawArea() {
   const { strokeColor } = useDrawingStore();
+  const { setUserStrokeColor } = useUserListStore();
+
 
   /**
   * ===================
@@ -173,6 +175,9 @@ export function DrawArea() {
         color: strokeColor
       });
       
+      //met à jour la couleur de l'utilisateur dans le store userListStore quand on commence a dessiner 
+      if (myUser) setUserStrokeColor(myUser.id, strokeColor);
+      
       /**
       * On pourrait ajouter le onMouseMove, onMouseUp directement dans le JSX de notre canvas, mais les ajouter à la volée ici est plus flexible. On pourra retirer ces events onMouseUp
       * Cela évite aussi les re-render inutile
@@ -261,9 +266,13 @@ export function DrawArea() {
     
     const onOtherUserDrawStart = useCallback((payload: DrawStroke) => {
       drawOtherUserPoints(payload);
-      
+
+      //mets a jour la couleur des autres users dans le store userListStore quand on reçoit un draw:start
+      if (payload.color) {
+        setUserStrokeColor(payload.userId, payload.color);
+      }
       otherUserStrokes.current.set(payload.userId, payload.points);
-    }, [drawOtherUserPoints]);
+    }, [drawOtherUserPoints, setUserStrokeColor]);
     
     
     /**
