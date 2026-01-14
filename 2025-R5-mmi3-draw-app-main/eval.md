@@ -18,3 +18,15 @@ Couleur mise à jour dès qu’un utilisateur commence à dessiner.
 Couleur stockée côté front dans `userStrokeColor` (Map userId → couleur).  
 
 Si pas de couleur connue (comme au début vu que ca se mets à jour lorsque l'user commence à dessiner), pastille noire par défaut.  
+
+# P2 - L’utilisateur peut sélectionner l’épaisseur de son tracé
+
+Ajout de strokeWidth dans le store pour gérer l’épaisseur.
+
+L’utilisateur peut choisir l’épaisseur dans la toolbar.
+
+Chaque tracé utilise l’épaisseur active au moment de sa création (mousedown / mousemove).
+
+L’épaisseur est envoyée au serveur et utilisée pour afficher les tracés des autres utilisateurs.
+
+Les tracés déjà dessinés gardent l’épaisseur choisie à leur création, même si on change l’épaisseur ensuite.

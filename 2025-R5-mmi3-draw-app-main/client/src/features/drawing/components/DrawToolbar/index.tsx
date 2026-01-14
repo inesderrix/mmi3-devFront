@@ -46,6 +46,8 @@ export function DrawToolbar() {
           />
         ))}
       </div>
+
+      {/* epaisseur du trait */}
       <span className="font-bold">Épaisseur:</span>
       <div className="flex gap-2 p-2">
         {WIDTHS.map((w) => (
